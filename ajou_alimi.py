@@ -14,7 +14,7 @@ requests.packages.urllib3.disable_warnings(requests.packages.urllib3.exceptions.
 pd.set_option('mode.chained_assignment',  None)
 
 # 슬랙 토큰
-slack_Tocken = "xoxb-2753060380404-2774545718832-OKemRGHP46arS5rQ70MouUCS"
+slack_Tocken = "xoxb-2753060380404-2774545718832-vNb1PNyz14Qd9Y6hWXQy2MND"
 
 # 슬랙 메시지 전송 함수
 def send_slack_message(token, channel, text):
