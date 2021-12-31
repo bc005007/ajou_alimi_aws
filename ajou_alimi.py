@@ -14,7 +14,7 @@ requests.packages.urllib3.disable_warnings(requests.packages.urllib3.exceptions.
 pd.set_option('mode.chained_assignment',  None)
 
 # 슬랙 토큰
-slack_Tocken = "xoxb-2753060380404-2774545718832-vNb1PNyz14Qd9Y6hWXQy2MND"
+slack_Tocken = ""
 
 # 슬랙 메시지 전송 함수
 def send_slack_message(token, channel, text):
@@ -22,6 +22,8 @@ def send_slack_message(token, channel, text):
         headers={"Authorization": "Bearer "+token},
         data={"channel": channel,"text": text}
     )
+
+send_slack_message(slack_Tocken,"#ajou_univ_notice", "테스트중")
 
 # 오늘, 어제 날짜 가져오기
 def get_date():
@@ -132,30 +134,25 @@ while True:
       if yesterday_df.empty: #.empty는 비어있는지 확인
         time.sleep(60*10) # 10분동안 멈춤
       else:
-        pass
-      
-      # 마지막 번호 다음 번호부터 데이터 불러오기
-      if int(dropped_df[:1]['number']) >= last_number:
+        # 마지막 번호 다음 번호부터 데이터 불러오기
         after_last_number_df = dropped_df[(dropped_df['number'].astype('int') > last_number) & (dropped_df['date'] == today)] # astype는 데이터프레임 타입 변경용
-      else:
-        pass
-      
-      # 새로운 마지막 번호 추출하기
-      last_number = int(after_last_number_df[:1]['number'])
-      print(last_number)
-      # 제목과 링크 합쳐서 새로은 열 만들기
-      after_last_number_df['title&link'] = after_last_number_df[['title', 'link']].agg(' '.join, axis=1).copy()
-      
-      # 제목과 링크 합친 열 리스트로 추출
-      titlelink_list = list(after_last_number_df['title&link'])
-      #for a in titlelink_list:
-      #  print(a)
-      
-      # slack으로 제목과 링크 리스트 보내기
-      for a in range(len(titlelink_list)):           
-        send_slack_message(slack_Tocken,"#ajou_univ_notice", titlelink_list[a])
-      time.sleep(60*10) # 10분동안 멈춤
+        
+        # 새로운 마지막 번호 추출하기
+        last_number = int(after_last_number_df[:1]['number'])
+        #print(last_number)
+        # 제목과 링크 합쳐서 새로은 열 만들기
+        after_last_number_df['title&link'] = after_last_number_df[['title', 'link']].agg(' '.join, axis=1).copy()
+
+        # 제목과 링크 합친 열 리스트로 추출
+        titlelink_list = list(after_last_number_df['title&link'])
+        #for a in titlelink_list:
+        #  print(a)
+
+        # slack으로 제목과 링크 리스트 보내기
+        for a in range(len(titlelink_list)):           
+          send_slack_message(slack_Tocken,"#ajou_univ_notice", titlelink_list[a])
+        time.sleep(60*10) # 10분동안 멈춤
   except Exception as e:
         print(e)
-        send_slack_message(slack_Tocken,"#ajou_univ_notice", e)
+        #send_slack_message(slack_Tocken,"#ajou_univ_notice", e)
         time.sleep(1)
