@@ -23,8 +23,6 @@ def send_slack_message(token, channel, text):
         data={"channel": channel,"text": text}
     )
 
-send_slack_message(slack_Tocken,"#ajou_univ_notice", "테스트중")
-
 # 오늘, 어제 날짜 가져오기
 def get_date():
   global today
@@ -74,7 +72,7 @@ dropped_df_for_last_number = df_for_last_number[(df_for_last_number['number'].st
 
 # 마지막 숫자 구하기
 last_number = int(dropped_df_for_last_number[:1]['number'])
-print(last_number)
+#print(last_number)
 
 while True:
   try:
